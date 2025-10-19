@@ -1,0 +1,15 @@
+touch ${USER}_part3.log
+mkdir -p D1/D2/D3
+touch D1/D2/file.txt
+\echo HelloWorld \>>D1/D2/file.txt
+cat D1/D2/D3/file_hardlink.txt
+readlink D1/D2/D3/file_symlink.txt
+mv D1/D2/file.txt D1/
+cat D1/D2/D3/file_hardlink.txt
+readlink D1/D2/D3/file_symlink.txt
+rm \-rf D1/D2/
+find / -type f -size +20M 2>/dev/null -exec du -h {} \; >> ${USER}_part3_gt50M.log
+find  -type f -mmin -1440
+whereis find
+file /usr/bin/find
+file /boot/initrd.img*

@@ -1,0 +1,314 @@
+root@eltex-practice2-pg1-v17:~# journalctl -b -S "@0" -U "+20 seconds"
+Oct 15 07:52:01 localhost kernel: Linux version 6.8.0-55-generic (buildd@lcy02-amd64-095) (x86_64-linux-gnu-gcc-13 (Ubuntu 13.3.0-6ubuntu2~2>
+Oct 15 07:52:01 localhost kernel: Command line: BOOT_IMAGE=/vmlinuz-6.8.0-55-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv ro
+Oct 15 07:52:01 localhost kernel: KERNEL supported cpus:
+Oct 15 07:52:01 localhost kernel:   Intel GenuineIntel
+Oct 15 07:52:01 localhost kernel:   AMD AuthenticAMD
+Oct 15 07:52:01 localhost kernel:   Hygon HygonGenuine
+Oct 15 07:52:01 localhost kernel:   Centaur CentaurHauls
+Oct 15 07:52:01 localhost kernel:   zhaoxin   Shanghai  
+Oct 15 07:52:01 localhost kernel: BIOS-provided physical RAM map:
+Oct 15 07:52:01 localhost kernel: BIOS-e820: [mem 0x0000000000000000-0x000000000009fbff] usable
+Oct 15 07:52:01 localhost kernel: BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
+Oct 15 07:52:01 localhost kernel: BIOS-e820: [mem 0x00000000000f0000-0x00000000000fffff] reserved
+Oct 15 07:52:01 localhost kernel: BIOS-e820: [mem 0x0000000000100000-0x00000000bffd9fff] usable
+Oct 15 07:52:01 localhost kernel: BIOS-e820: [mem 0x00000000bffda000-0x00000000bfffffff] reserved
+Oct 15 07:52:01 localhost kernel: BIOS-e820: [mem 0x00000000feffc000-0x00000000feffffff] reserved
+Oct 15 07:52:01 localhost kernel: BIOS-e820: [mem 0x00000000fffc0000-0x00000000ffffffff] reserved
+Oct 15 07:52:01 localhost kernel: BIOS-e820: [mem 0x0000000100000000-0x000000013fffffff] usable
+Oct 15 07:52:01 localhost kernel: BIOS-e820: [mem 0x000000fd00000000-0x000000ffffffffff] reserved
+Oct 15 07:52:01 localhost kernel: NX (Execute Disable) protection: active
+Oct 15 07:52:01 localhost kernel: APIC: Static calls initialized
+Oct 15 07:52:01 localhost kernel: SMBIOS 2.8 present.
+Oct 15 07:52:01 localhost kernel: DMI: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
+Oct 15 07:52:01 localhost kernel: Hypervisor detected: KVM
+
+root@eltex-practice2-pg1-v17:~# 
+root@eltex-practice2-pg1-v17:~# find /var/log -name auth.log -exec awk '{print $5, substr($0, index($0,$6))}' {} \; | sed 's/\[[0-9]*\]//' | sort
+'tech' to group 'adm'
+'tech' to group 'cdrom'
+'tech' to group 'dip'
+'tech' to group 'lxd'
+'tech' to group 'plugdev'
+'tech' to group 'sudo'
+...
+
+user3) root on pts/3
+user3) root on pts/3
+user3) user2 on pts/3
+user: name=tech, UID=1000, GID=1000, home=/home/tech, shell=/bin/bash, from=none
+user: name=user1, UID=1001, GID=1001, home=/home/user1, shell=/bin/bash, from=/dev/pts/1
+user: name=user2, UID=1002, GID=1002, home=/home/user2, shell=/bin/bash, from=/dev/pts/0
+user: name=user3, UID=1003, GID=1003, home=/home/user3, shell=/bin/bash, from=/dev/pts/0
+root@eltex-practice2-pg1-v17:~# 
+root@eltex-practice2-pg1-v17:~# find /var/log -name auth.log -exec awk '{print $5}' {} \; | sed 's/\[.*\]//' | sort | uniq -c | sort -nr
+   1406 session
+     38 rules
+     36 :
+     34 from
+     34 disconnect
+     32 publickey
+     17 password
+     16 loading,
+     12 user1)
+     12 system
+     12 'tech'
+     10 user3)
+     10 user2)
+     10 the
+      8 listening
+      6 logout()
+      6 garbage
+      6 added
+      5 signal
+      5 seat
+      5 group:
+      4 user:
+      4 login
+      4 is
+      3 user
+      3 closed
+      2 of
+      2 2
+      2 /run/nologin,
+      2 'user3'
+      2 'user2'
+      2 'user1'
+      1 unable
+      1 root)
+      1 for
+      1 authentication
+      1 adding
+      1 595
+      1 594
+      1 59
+      1 561
+      1 557
+      1 55
+      1 547
+      1 543
+      1 535
+      1 53
+      1 52
+      1 491
+      1 49
+      1 47
+      1 45
+      1 42
+      1 400
+      1 40
+      1 394
+      1 392
+      1 388
+      1 385
+      1 38
+      1 371
+      1 369
+      1 367
+      1 36
+      1 350
+      1 33
+      1 326
+      1 207
+      1 181
+root@eltex-practice2-pg1-v17:~# 
+
+root@eltex-practice2-pg1-v17:~# awk -F: '$7~"nologin"{print $3" "$1}' /etc/passwd | sort -nr | while read u i;do g=$(id -nG $i|tr ' ' ',');echo "$u, $i, $g";done
+65534, nobody, nogroup
+1003, user3, user3,users,myusergroup
+998, systemd-network, systemd-network
+997, systemd-timesync, systemd-timesync
+992, systemd-resolve, systemd-resolve
+991, polkitd, polkitd
+989, fwupd-refresh, fwupd-refresh
+109, sshd, nogroup
+108, usbmux, plugdev
+107, landscape, landscape
+105, tcpdump, tcpdump
+104, uuidd, uuidd
+103, syslog, syslog,adm
+101, messagebus, messagebus
+42, _apt, nogroup
+39, irc, irc
+38, list, list
+34, backup, backup
+33, www-data, www-data
+13, proxy, proxy
+10, uucp, uucp
+9, news, news
+8, mail, mail
+7, lp, lp
+6, man, man
+5, games, games
+3, sys, sys
+2, bin, bin
+1, daemon, daemon
+root@eltex-practice2-pg1-v17:~# 
+
+root@eltex-practice2-pg1-v17:~# dmesg | grep kernel
+[    0.042004] Booting paravirtualized kernel on KVM
+[    0.042964] Unknown kernel command line parameters "BOOT_IMAGE=/vmlinuz-6.8.0-55-generic", will be passed to user space.
+[    0.093714] Memory: 3933488K/4193760K available (22528K kernel code, 4443K rwdata, 14344K rodata, 4988K init, 4716K bss, 260012K reserved, 0K cma-reserved)
+[    0.503154] Loaded X.509 cert 'Build time autogenerated kernel key: e0bedf6fa049a1e09bd65ebab3904f14cdd5bc68'
+[    0.657013] Loaded X.509 cert 'Build time autogenerated kernel key: e0bedf6fa049a1e09bd65ebab3904f14cdd5bc68'
+[    0.681311] Freeing unused kernel image (initmem) memory: 4988K
+[    0.682091] Write protecting the kernel read-only data: 38912k
+[    0.683334] Freeing unused kernel image (rodata/data gap) memory: 2040K
+[    5.562777] systemd[1]: Listening on systemd-udevd-kernel.socket - udev Kernel Socket.
+[    5.572247] systemd[1]: Mounting sys-kernel-debug.mount - Kernel Debug File System...
+[    5.574834] systemd[1]: Mounting sys-kernel-tracing.mount - Kernel Trace File System...
+root@eltex-practice2-pg1-v17:~# 
+
+root@eltex-practice2-pg1-v17:~# wc -l /var/log/kern.log
+3639 /var/log/kern.log
+
+oot@eltex-practice2-pg1-v17:~# awk '/^Commandline:|^Start-Date:|^End-Date:/ {printf /^Commandline:/ ? "Commandline: %s ; " : /^Start-Date:/ ? "Start-Date: %s ; " : "End-Date: %s\n", $2}' /var/log/apt/history.log
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-02-16 ; Commandline: apt-get ; End-Date: 2025-02-16
+Start-Date: 2025-03-12 ; Commandline: apt-get ; End-Date: 2025-03-12
+Start-Date: 2025-03-12 ; Commandline: apt-get ; End-Date: 2025-03-12
+Start-Date: 2025-03-12 ; Commandline: apt-get ; End-Date: 2025-03-12
+Start-Date: 2025-03-12 ; Commandline: /usr/bin/unattended-upgrades ; End-Date: 2025-03-12
+Start-Date: 2025-03-12 ; Commandline: apt ; End-Date: 2025-03-12
+Start-Date: 2025-03-12 ; Commandline: apt ; End-Date: 2025-03-12
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-16 ; Commandline: /usr/bin/unattended-upgrade ; End-Date: 2025-10-16
+Start-Date: 2025-10-17 ; Commandline: apt ; End-Date: 2025-10-17
+Start-Date: 2025-10-18 ; Commandline: apt ; End-Date: 2025-10-18
+root@eltex-practice2-pg1-v17:~# 
+
