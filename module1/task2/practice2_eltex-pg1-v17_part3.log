@@ -178,3 +178,73 @@ eltex-pg1-v17@eltex-2025-autumn:~$ scp eltex-pg1-v17_part3_gt50M.log .log root@1
 eltex-pg1-v17_part3_gt50M.log                            100%  615    44.5KB/s   00:00    
 .log                                                     100%  131     9.7KB/s   00:00    
 eltex-pg1-v17@eltex-2025-autumn:~$ 
+oot@eltex-practice2-pg1-v17:~/Module1Eltex# nano ~/practice2_eltex-pg1-v17_part3.log 
+root@eltex-practice2-pg1-v17:~/Module1Eltex# mv ~/practice2_eltex-pg1-v17_part1.log 
+.git/      README.md  module1/   
+root@eltex-practice2-pg1-v17:~/Module1Eltex# mv ~/practice2_eltex-pg1-v17_part1.log module1/task2/
+root@eltex-practice2-pg1-v17:~/Module1Eltex# mv ~/practice2_eltex-pg1-v17_part2.log module1/task2/
+root@eltex-practice2-pg1-v17:~/Module1Eltex# ls module1/task2/
+practice2_eltex-pg1-v17_part1.log  practice2_eltex-pg1-v17_part2.log
+root@eltex-practice2-pg1-v17:~/Module1Eltex# mv ~/practice2_eltex-pg1-v17_part3.log module1/task2/
+root@eltex-practice2-pg1-v17:~/Module1Eltex# git add .
+root@eltex-practice2-pg1-v17:~/Module1Eltex# git status 
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	new file:   module1/task1/.log
+	new file:   module1/task1/eltex-pg1-v17_part.log
+	new file:   module1/task1/eltex-pg1-v17_part3.log
+	new file:   module1/task1/eltex-pg1-v17_part3_gt50M.log
+	new file:   module1/task2/practice2_eltex-pg1-v17_part1.log
+	new file:   module1/task2/practice2_eltex-pg1-v17_part2.log
+	new file:   module1/task2/practice2_eltex-pg1-v17_part3.log
+
+root@eltex-practice2-pg1-v17:~/Module1Eltex# git commit -m "Добавлены логи практик"
+[main 0c45b18] Добавлены логи практик
+ 7 files changed, 5238 insertions(+)
+ create mode 100644 module1/task1/.log
+ create mode 100644 module1/task1/eltex-pg1-v17_part.log
+ create mode 100644 module1/task1/eltex-pg1-v17_part3.log
+ create mode 100644 module1/task1/eltex-pg1-v17_part3_gt50M.log
+ create mode 100644 module1/task2/practice2_eltex-pg1-v17_part1.log
+ create mode 100644 module1/task2/practice2_eltex-pg1-v17_part2.log
+ create mode 100644 module1/task2/practice2_eltex-pg1-v17_part3.log
+root@eltex-practice2-pg1-v17:~/Module1Eltex# git push 
+Enumerating objects: 13, done.
+Counting objects: 100% (13/13), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (12/12), done.
+Writing objects: 100% (12/12), 38.20 KiB | 7.64 MiB/s, done.
+Total 12 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/FHN1V2/Module1Eltex.git
+   aa6e50a..0c45b18  main -> main
+root@eltex-practice2-pg1-v17:~/Module1Eltex# 
+
+root@eltex-practice2-pg1-v17:~# mkdir ~/Module1Eltex_clone && cd ~/Module1Eltex_clone
+root@eltex-practice2-pg1-v17:~/Module1Eltex_clone# ls ~/
+Module1Eltex        etc_backup     etc_backup.tar.bz2  etc_backup.tar.xz  etc_backup_gzip
+Module1Eltex_clone  etc_backup.7z  etc_backup.tar.gz   etc_backup_7zip    spisok.txt
+root@eltex-practice2-pg1-v17:~/Module1Eltex_clone# git clone https://github.com/FHN1V2/Module1Eltex.git
+Cloning into 'Module1Eltex'...
+remote: Enumerating objects: 15, done.
+remote: Counting objects: 100% (15/15), done.
+remote: Compressing objects: 100% (14/14), done.
+remote: Total 15 (delta 0), reused 15 (delta 0), pack-reused 0 (from 0)
+Receiving objects: 100% (15/15), 38.45 KiB | 336.00 KiB/s, done.
+root@eltex-practice2-pg1-v17:~/Module1Eltex_clone# ls
+Module1Eltex
+root@eltex-practice2-pg1-v17:~/Module1Eltex_clone# 
+ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   practice2_eltex-pg1-v17_part3.log
+
+no changes added to commit (use "git add" and/or "git commit -a")
+root@eltex-practice2-pg1-v17:~/Module1Eltex/module1/task2# git add practice2_eltex-pg1-v17_part3.log 
+
