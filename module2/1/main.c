@@ -12,11 +12,10 @@ void displayMenu();
 /*
 TODO:
 void addContact();
-void searchContact();
 void displayContacts();
 void editContact();
+void searchContact();
 void deleteContact();
-
 */
 
 int main()
