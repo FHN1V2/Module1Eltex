@@ -1,69 +1,49 @@
 #include <stdio.h>
+#include <string.h>
+#include "contacts.h"
 
-struct contact
-{
-    char* FullName;
-    char* WorkPlace;
-    char* Email;
-    char* Links;
-};
+void display_menu() {
+    printf("\nТелефонная книга:\n");
+    printf("1. Добавить контакт\n");
+    printf("2. Редактировать контакт\n");
+    printf("3. Удалить контакт\n");
+    printf("4. Показать все контакты\n");
+    printf("5. Выход\n");
+    printf("Выберите действие: ");
+}
 
-void displayMenu();
-/*
-TODO:
-void addContact();
-void displayContacts();
-void editContact();
-void searchContact();
-void deleteContact();
-*/
-
-int main()
-{ 
-    int point;
-    
-    while (point!=0){
-        displayMenu();
-        printf("Выберите действие: ");
-        scanf("%d", &point);
-        switch(point) {
+int main() {
+    int choice;
+    char first_name[MAX_FIELD_LEN];
+    char last_name[MAX_FIELD_LEN];
+    int id;
+    while (1) {
+        display_menu();
+        scanf("%d", &choice);
+        getchar();
+        switch (choice) {
             case 1:
- //               addContact();
+                add_contact();
                 break;
             case 2:
- //               displayContacts();
+                printf("Введите ID контакта для редактирования: ");
+                scanf("%d", &id);
+                getchar();
+                edit_contact(id);
                 break;
             case 3:
-  //              editContact();
+                printf("Введите ID контакта для удаления: ");
+                scanf("%d", &id);
+                getchar();
+                delete_contact(id);
                 break;
             case 4:
-  //              deleteContact();
+                print_contacts();
                 break;
             case 5:
-  //              searchContact();
-                break;
-            case 0:
-                printf("Выход из программы.\n");
-                break;
+                return 0;
             default:
                 printf("Неверный выбор!\n");
         }
-    };
-
-    return 0;
-}
-
-
-
-
-
-void displayMenu()
-{
-    printf("\n=== МЕНЮ ===\n");
-    printf("1. Добавить контакт\n");
-    printf("2. Показать все контакты\n");
-    printf("3. Редактировать контакт\n");
-    printf("4. Удалить контакт\n");
-    printf("5. Поиск контакта\n");
-    printf("0. Выход\n");
+    }
 }
