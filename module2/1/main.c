@@ -14,7 +14,7 @@ void display_menu() {
 
 int main() {
     int choice;
-    char first_name[MAX_FIELD_LEN];
+    char first_name[MAX_FIELD_LEN]; 
     char last_name[MAX_FIELD_LEN];
     int id;
     while (1) {
