@@ -48,7 +48,6 @@ double del(int n, ...) {
     va_list factor; 
     va_start(factor, n);
     double result = va_arg(factor, double);
-    printf("%f \n", result);
     va_end(factor); 
     va_start(factor+8, n); // +8 из-за double
     for(int i = 1; i < n; i++) {
