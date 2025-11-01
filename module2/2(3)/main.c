@@ -65,9 +65,36 @@ double del(int n, ...) {
 
 int main() {
 
-    printf("%f \n", sum(4, 1.2, 2.0, 3.0, 4.0));
-    printf("%f \n", sub(3, 100.0, 32.0, 10.9));
-    printf("%f \n", mult(3, 2.0, 3.0, 4.0));
-    printf( "%f \n", del(3, 10.0, 5.0, 2.0));
+    // printf("%f \n", sum(4, 1.2, 2.0, 3.0, 4.0));
+    // printf("%f \n", sub(3, 100.0, 32.0, 10.9));
+    // printf("%f \n", mult(3, 2.0, 3.0, 4.0));
+    // printf( "%f \n", del(3, 10.0, 5.0, 2.0));
+    int choice;
+    while (1) {
+        
+        display_menu();
+        scanf("%d", &choice);
+        getchar();
+        switch (choice)
+        {
+            case 1:
+            printf("Введите числа для суммирования");
+            
+            break;
+            case 2:
+
+            break;
+            case 3:
+
+            break;
+            case 4:
+
+            break;
+            case 5:
+
+                return 0;
+            break;
+        }
+    }
     return 0;
 }
